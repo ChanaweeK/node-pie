@@ -6,7 +6,7 @@ var http = require('http');
 var https = require('https');
 var express = require("express");
 var RED = require("node-red");
-var userdir = require('os').homedir()+'/.node-pie';
+var userdir = './config';
 
 var app = express();
 app.use("/",express.static("public"));
@@ -14,13 +14,13 @@ var https_server, http_server;
 
 var n = {};
 try {
-    n = JSON.parse(fs.readFileSync(userdir+'/nodepie.json'));
+    n = JSON.parse(fs.readFileSync(userdir + '/nodepie.json'));
 } catch(err) {
     RED.log.info('nodepie.json not found');
 }
 var settings = {
         nodepie : {
-            port : n.port || 1888,
+            port : n.port || process.env.PORT,
             secure_port : n.secure_port || null,
         },
         red : {
@@ -32,14 +32,14 @@ var settings = {
             editorTheme : {
                 page : {
                     title : "Node-PIE",
-                    favicon: __dirname+"/img/node-pie.ico"
+                    favicon: __dirname + "/img/node-pie.ico"
                 },
                 header : {
                     title : "Node-PIE powered by Node-RED",
-                    image: __dirname+"/img/node-pie.png",
+                    image: __dirname + "/img/node-pie.png",
                 },
                 login: {
-                   image: __dirname+"/img/netpie-256.png"
+                   image: __dirname + "/img/netpie-256.png"
                 }
             }
         }
